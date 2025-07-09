@@ -1,93 +1,78 @@
-# AWS CodePipeline CLI
+# AWS Pipeline CLI
 
-An interactive terminal utility to view and trigger AWS CodePipeline pipelines with search and navigation features.
+A simple interactive CLI tool to view and trigger AWS CodePipeline executions from your terminal.
 
----
+## Installation (Mac & Ubuntu)
 
-## Features
-- List all AWS CodePipelines in your account
-- Type-to-search and filter pipelines
-- Grid view with arrow key navigation (up/down/left/right)
-- Trigger (release) a pipeline with confirmation
-- Supports custom AWS profiles and column layouts
-- Clean, user-friendly terminal UI
+1. **Clone this repository:**
 
----
-
-## Installation
-
-### 1. Manual
-```sh
-git clone https://github.com/ddjain/aws-pipeline-cli.git
+```bash
+git clone https://github.com/yourusername/aws-pipeline-cli.git
 cd aws-pipeline-cli
-chmod +x aws-codepipeline-cli.sh
-sudo cp aws-codepipeline-cli.sh /usr/local/bin/aws-codepipeline-cli
 ```
 
-### 2. One-liner (install script)
-```sh
-curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/main/aws-codepipeline-cli.sh -o /usr/local/bin/aws-codepipeline-cli
-sudo chmod +x /usr/local/bin/aws-codepipeline-cli
+2. **(Optional) Make the script executable:**
+
+```bash
+chmod +x aws-pipeline-cli.sh
 ```
 
-### 3. Homebrew (recommended for macOS/Linux)
-```sh
-brew tap ddjain/aws-pipeline-cli
-brew install aws-codepipeline-cli
+3. **(Optional) Add to your PATH:**
+
+You can copy or symlink the script to a directory in your PATH, e.g.:
+
+```bash
+sudo cp aws-pipeline-cli.sh /usr/local/bin/aws-pipeline-cli
 ```
 
----
+Or run it directly from the cloned directory:
+
+```bash
+./aws-pipeline-cli.sh
+```
+
+## Prerequisites
+
+- [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) must be installed and configured (`aws configure`).
+- [jq](https://stedolan.github.io/jq/) must be installed for JSON parsing.
+
+Install on Mac (with Homebrew):
+```bash
+brew install awscli jq
+```
+
+Install on Ubuntu:
+```bash
+sudo apt update
+sudo apt install awscli jq
+```
 
 ## Usage
 
-```sh
-aws-codepipeline-cli [profile] [columns]
+```bash
+./aws-pipeline-cli.sh [profile] [columns]
 ```
 
-- `profile`  : AWS CLI profile to use (optional, default: default profile)
-- `columns`  : Number of columns in the grid (optional, default: 2)
-- `--help`   : Show help message
-- `--version`: Show version (1.0.0)
+- `profile` (optional): AWS CLI profile to use (default: default profile)
+- `columns` (optional): Number of columns in the grid (default: 2)
 
 ### Example
-```sh
-aws-codepipeline-cli
-aws-codepipeline-cli myprofile 3
-aws-codepipeline-cli --help
+
+```bash
+./aws-pipeline-cli.sh my-aws-profile 3
+```
+
+## Features
+- Interactive terminal UI to select and trigger pipelines
+- Search and filter pipelines
+
+## Uninstall
+
+If you copied the script to `/usr/local/bin`:
+```bash
+sudo rm /usr/local/bin/aws-pipeline-cli
 ```
 
 ---
 
-## Arguments
-| Argument     | Description                                      |
-|--------------|--------------------------------------------------|
-| profile      | AWS CLI profile to use (optional)                |
-| columns      | Number of columns in the grid (optional)         |
-| --help       | Show help message and exit                       |
-| --version    | Show version information and exit                |
-
----
-
-## Requirements
-- bash
-- AWS CLI v2
-- AWS credentials and region configured (`aws configure`)
-
----
-
-## Screenshot
-```
-|---------------------------------------------------------------------|
-|                        AWS CodePipeline CLI                         |
-|---------------------------------------------------------------------|
-AWS CodePipelines (profile: default)
-Type to search: 
-Use ↑ ↓ ← → to navigate, Enter to select, :q to quit, Backspace to delete.
- > my-pipeline-1      my-pipeline-2      my-pipeline-3
-   ...
-```
-
----
-
-## License
-MIT 
+**Note:** This project is not affiliated with AWS. Use at your own risk. 
