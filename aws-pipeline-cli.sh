@@ -53,10 +53,9 @@ fetch_pipelines() {
 
 # Options (will be dynamically set)
 options=()
-pipelines_output=$(fetch_pipelines)
 while IFS= read -r line; do
     options+=("$line")
-done <<< "$pipelines_output"
+done < <(fetch_pipelines)
 selected=0
 
 # Disable echo and enable raw mode for arrow key reading
@@ -113,10 +112,9 @@ get_user_input() {
 while true; do
     # Fetch pipelines and populate options
     options=()
-    pipelines_output=$(fetch_pipelines)
     while IFS= read -r line; do
         options+=("$line")
-    done <<< "$pipelines_output"
+    done < <(fetch_pipelines)
     if [[ ${#options[@]} -eq 0 ]]; then
         echo "No pipelines found for profile '$PROFILE'."
         exit 1
