@@ -1,31 +1,77 @@
 #!/usr/bin/env bash
 
-# AWS profile (empty by default, uses default profile if not set)
+VERSION="v1.0.0"  # Update this on each release
+github_repo="ddjain/aws-pipeline-cli"
+script_path="/usr/local/bin/aws-codepipeline-cli"
+
+# Self-update logic
+check_for_update() {
+    latest=$(curl -fsSL "https://api.github.com/repos/$github_repo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    if [[ -z "$latest" ]]; then
+        return
+    fi
+    if [[ "$latest" != "$VERSION" ]]; then
+        echo "A new version ($latest) is available! You are running $VERSION."
+        echo "Run 'aws-codepipeline-cli update' to upgrade."
+    fi
+}
+
+self_update() {
+    latest=$(curl -fsSL "https://api.github.com/repos/$github_repo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    if [[ -z "$latest" ]]; then
+        echo "Could not fetch latest version."
+        exit 1
+    fi
+    echo "Updating to version $latest..."
+    sudo curl -fsSL "https://raw.githubusercontent.com/$github_repo/refs/tags/$latest/aws-pipeline-cli.sh" -o "$script_path"
+    sudo chmod +x "$script_path"
+    echo "Update complete! Now running version $latest."
+    exit 0
+}
+
+# Default values
 PROFILE=""
-# Default column count
 COLUMNS=2
 
-# Allow profile and column override via command-line arguments
-if [[ -n "$1" ]]; then
-    PROFILE="$1"
-fi
-if [[ -n "$2" ]]; then
-    COLUMNS="$2"
-fi
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --profile)
+            PROFILE="$2"
+            shift 2
+            ;;
+        --help)
+            echo "Usage: aws-pipeline-cli [--profile <profile>] [columns]"
+            echo "  --profile <profile>  AWS CLI profile to use (optional, default: default profile)"
+            echo "  columns              Number of columns in the grid (optional, default: 2)"
+            echo "  --help               Show this help message and exit"
+            echo "  --version            Show version information and exit"
+            echo "  update               Update to the latest version and exit"
+            exit 0
+            ;;
+        --version)
+            echo "aws-pipeline-cli version $VERSION"
+            exit 0
+            ;;
+        update)
+            self_update
+            exit 0
+            ;;
+        [0-9]*)
+            COLUMNS="$1"
+            shift
+            ;;
+        *)
+            # If not a recognized flag, treat as profile if not already set
+            if [[ -z "$PROFILE" ]]; then
+                PROFILE="$1"
+            fi
+            shift
+            ;;
+    esac
+done
 
-# Handle --help and --version
-if [[ "$1" == "--help" ]]; then
-    echo "Usage: aws-pipeline-cli.sh [profile] [columns]"
-    echo "  profile   AWS CLI profile to use (optional, default: default profile)"
-    echo "  columns   Number of columns in the grid (optional, default: 2)"
-    echo "  --help    Show this help message and exit"
-    echo "  --version Show version information and exit"
-    exit 0
-fi
-if [[ "$1" == "--version" ]]; then
-    echo "aws-pipeline-cli version 1.0.1"
-    exit 0
-fi
+check_for_update
 
 # Fetch list of CodePipelines
 fetch_pipelines() {
