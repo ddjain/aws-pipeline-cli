@@ -38,6 +38,7 @@ sudo chmod +x /usr/local/bin/aws-pipeline-cli
 To uninstall the CLI tool installed via Homebrew, run:
 
 ```sh
+sudo rm /usr/local/bin/aws-pipeline-cli
 ```
 
 If you also want to remove the tap (optional):
