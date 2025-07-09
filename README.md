@@ -30,23 +30,13 @@ curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/main/aws-pi
 sudo chmod +x /usr/local/bin/aws-pipeline-cli
 ```
 
-
 ---
 
 ## Uninstall
 
-To uninstall the CLI tool installed via Homebrew, run:
-
 ```sh
 sudo rm /usr/local/bin/aws-pipeline-cli
 ```
-
-If you also want to remove the tap (optional):
-
-```sh
-brew untap ddjain/aws-pipeline-cli
-```
-
 ---
 
 ## Usage
