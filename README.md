@@ -26,7 +26,7 @@ sudo cp aws-pipeline-cli.sh /usr/local/bin/aws-pipeline-cli
 
 ### 2. One-liner (install script)
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/refs/tags/v1.0.2/aws-pipeline-cli.sh -o /usr/local/bin/aws-pipeline-cli
+curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/refs/tags/v1.0.3/aws-pipeline-cli.sh -o /usr/local/bin/aws-pipeline-cli
 sudo chmod +x /usr/local/bin/aws-pipeline-cli
 ```
 
@@ -41,10 +41,10 @@ sudo rm /usr/local/bin/aws-pipeline-cli
 
 ## Usage
 
-aws-codepipeline-cli [--profile <profile>] [columns]
+aws-codepipeline-cli [--profile <profile>] [--columns <columns>]
 
 * `--profile <profile>` : AWS CLI profile to use (optional, default: default profile)
-* `columns` : Number of columns in the grid (optional, default: 2)
+* `--columns <columns>` : Number of columns in the grid (optional, default: 2)
 * `--help` : Show help message
 * `--version`: Show version
 * `update`: Update to the latest version
@@ -52,7 +52,7 @@ aws-codepipeline-cli [--profile <profile>] [columns]
 ### Example
 
 aws-codepipeline-cli
-aws-codepipeline-cli --profile myprofile 3
+aws-codepipeline-cli --profile myprofile --columns 3
 aws-codepipeline-cli --help
 aws-codepipeline-cli update
 
@@ -60,13 +60,13 @@ aws-codepipeline-cli update
 
 ## Arguments
 
-| Argument           | Description                                         |
-|-------------------|-----------------------------------------------------|
-| --profile <name>  | AWS CLI profile to use (optional)                   |
-| columns           | Number of columns in the grid (optional)            |
-| --help            | Show help message and exit                          |
-| --version         | Show version information and exit                   |
-| update            | Update to the latest version and exit               |
+| Argument             | Description                                         |
+|---------------------|-----------------------------------------------------|
+| --profile <name>    | AWS CLI profile to use (optional)                   |
+| --columns <columns> | Number of columns in the grid (optional, default: 2)|
+| --help              | Show help message and exit                          |
+| --version           | Show version information and exit                   |
+| update              | Update to the latest version and exit               |
 
 ---
 
@@ -102,6 +102,6 @@ MIT
 Until your Homebrew tap is set up, users can still install manually or with the one-liner as described in your README:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/refs/tags/v1.0.2/aws-pipeline-cli.sh -o /usr/local/bin/aws-pipeline-cli
+curl -fsSL https://raw.githubusercontent.com/ddjain/aws-pipeline-cli/refs/tags/v1.0.3/aws-pipeline-cli.sh -o /usr/local/bin/aws-pipeline-cli
 sudo chmod +x /usr/local/bin/aws-pipeline-cli
 ```
