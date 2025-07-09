@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="v1.0.2"  # Update this on each release
+VERSION="v1.0.3"  # Update this on each release
 github_repo="ddjain/aws-pipeline-cli"
 script_path="/usr/local/bin/aws-codepipeline-cli"
 
@@ -37,13 +37,29 @@ COLUMNS=2
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --profile)
-            PROFILE="$2"
-            shift 2
+            if [[ -n "$2" && "$2" != --* ]]; then
+                PROFILE="$2"
+                shift 2
+            else
+                echo "Error: --profile requires a value."
+                echo "Usage: aws-codepipeline-cli --profile <profile> [--columns <columns>]"
+                exit 1
+            fi
+            ;;
+        --columns)
+            if [[ -n "$2" && "$2" =~ ^[0-9]+$ && "$2" -gt 0 ]]; then
+                COLUMNS="$2"
+                shift 2
+            else
+                echo "Error: --columns requires a positive integer value."
+                echo "Usage: aws-codepipeline-cli [--profile <profile>] [--columns <columns>]"
+                exit 1
+            fi
             ;;
         --help)
-            echo "Usage: aws-pipeline-cli [--profile <profile>] [columns]"
+            echo "Usage: aws-codepipeline-cli [--profile <profile>] [--columns <columns>]"
             echo "  --profile <profile>  AWS CLI profile to use (optional, default: default profile)"
-            echo "  columns              Number of columns in the grid (optional, default: 2)"
+            echo "  --columns <columns>  Number of columns in the grid (optional, default: 2)"
             echo "  --help               Show this help message and exit"
             echo "  --version            Show version information and exit"
             echo "  update               Update to the latest version and exit"
@@ -70,6 +86,11 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# Validate COLUMNS
+if ! [[ "$COLUMNS" =~ ^[0-9]+$ ]] || [[ "$COLUMNS" -le 0 ]]; then
+    COLUMNS=2
+fi
 
 check_for_update
 
