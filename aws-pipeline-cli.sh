@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/usr/bin/env bash
 
 # AWS profile (empty by default, uses default profile if not set)
 PROFILE=""
