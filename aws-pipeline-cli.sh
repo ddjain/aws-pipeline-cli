@@ -23,7 +23,7 @@ if [[ "$1" == "--help" ]]; then
     exit 0
 fi
 if [[ "$1" == "--version" ]]; then
-    echo "aws-pipeline-cli version 1.0.0"
+    echo "aws-pipeline-cli version 1.0.1"
     exit 0
 fi
 
@@ -53,9 +53,10 @@ fetch_pipelines() {
 
 # Options (will be dynamically set)
 options=()
+pipelines_output=$(fetch_pipelines)
 while IFS= read -r line; do
     options+=("$line")
-done < <(fetch_pipelines)
+done <<< "$pipelines_output"
 selected=0
 
 # Disable echo and enable raw mode for arrow key reading
@@ -112,9 +113,10 @@ get_user_input() {
 while true; do
     # Fetch pipelines and populate options
     options=()
+    pipelines_output=$(fetch_pipelines)
     while IFS= read -r line; do
         options+=("$line")
-    done < <(fetch_pipelines)
+    done <<< "$pipelines_output"
     if [[ ${#options[@]} -eq 0 ]]; then
         echo "No pipelines found for profile '$PROFILE'."
         exit 1
