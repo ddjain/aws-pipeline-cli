@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="v1.0.0"  # Update this on each release
+VERSION="v1.0.2"  # Update this on each release
 github_repo="ddjain/aws-pipeline-cli"
 script_path="/usr/local/bin/aws-codepipeline-cli"
 
